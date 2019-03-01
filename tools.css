@@ -1,0 +1,31 @@
+.formLabel{
+
+}
+.formInput{
+margin-left:15px;
+margin-right:10px
+}
+#nav {
+    height: 40px;
+}
+ 
+#nav ul {
+    list-style: none;
+    margin-left: 50px;
+}
+ 
+#nav li {
+    display: inline;
+    line-height: 40px;
+    float:left
+}
+ 
+#nav a {
+	font-size: 18pt;
+    text-decoration: none;
+    padding: 0px 20px 0px 20px;
+}
+ 
+#nav a:hover {
+    color:red;
+}
