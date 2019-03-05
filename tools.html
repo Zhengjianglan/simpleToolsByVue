@@ -38,6 +38,10 @@
   
     <div v-if="currentView==views.generateInsertSql">
 	<label>TableName</label><input type="text" class="formInput" v-model="generateInsertSqlModel.tableName"/>
+	<label>Check If Exists</label>
+	<select v-model="generateInsertSqlModel.exceptExists"><option value='0'>N</option><option value='1'>Y</option></select>
+	<label>Delete If Exists</label>
+	<select v-model="generateInsertSqlModel.deleteExists"><option value='0'>N</option><option value='1'>Y</option></select><P>
 	<input @click="generateInsertSqlBtnClick" type="button" value="Confirm"/>
 	<p>
 	<label> DataText</label><p>

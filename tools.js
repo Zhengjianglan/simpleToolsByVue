@@ -25,6 +25,8 @@ new Vue({
 		tableName : "CallTask",
 		dataText : "",
 		insertText : "",
+		exceptExists : '1',
+		deleteExists : '0'
 	}
   },
 	methods:{
@@ -47,16 +49,30 @@ new Vue({
 				if(j!=cols.length-1)
 					headTemplate+=",";
 			}
-			var insertTemplate = "insert into [" + tbNamePara + "] ([headers]) values ([bodys])";
+			var insertTemplate = "insert into " + tbNamePara + " ([headers]) values ([bodys])";
 			var resultTest = "";
 			for(var i =1;i<colRows.length;i++){
 				var line = colRows[i];
 				var words = line.split('\t');
 				var colBodyTemplate = "";
 				for(var k =0;k<words.length;k++){
-					colBodyTemplate=colBodyTemplate+"'"+words[k]+"'";
+					var word = words[k];
+					if(word=='NULL')
+						;
+					else 
+						word = "'"+word+"'";
+					colBodyTemplate=colBodyTemplate+word;
 					if(k!=words.length-1)
 						colBodyTemplate = colBodyTemplate+",";
+				}
+				if(this.generateInsertSqlModel.exceptExists=='1'){
+					resultTest = resultTest + "if exists (select 1 from [tablename] where id = '[id]')\r".replace('[tablename]',tbNamePara).replace('[id]',words[0]);
+					if(this.generateInsertSqlModel.deleteExists=='1'){
+						resultTest = resultTest + "delete from [tablename] where id = '[id]'\r".replace('[tablename]',tbNamePara).replace('[id]',words[0]);
+					}
+					else{
+						resultTest = resultTest + "select '[tablename] item [[id]] exists'\relse\r".replace('[tablename]',tbNamePara).replace('[id]',words[0]);
+					}
 				}
 				resultTest = resultTest + insertTemplate.replace('[headers]',headTemplate).replace('[bodys]',colBodyTemplate);
 				resultTest = resultTest + "\rGO\r"
