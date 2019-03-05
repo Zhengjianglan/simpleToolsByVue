@@ -35,6 +35,16 @@
 	<label> TargetText</label><p>
 	<textarea style="width:90%;height:300px;" v-model="mssqlIndexModel.createText"></textarea><p>
   </div>
+  
+    <div v-if="currentView==views.generateInsertSql">
+	<label>TableName</label><input type="text" class="formInput" v-model="generateInsertSqlModel.tableName"/>
+	<input @click="generateInsertSqlBtnClick" type="button" value="Confirm"/>
+	<p>
+	<label> DataText</label><p>
+	<textarea style="width:90%;height:300px;" v-model="generateInsertSqlModel.dataText"></textarea><p>
+	<label> InsertText</label><p>
+	<textarea style="width:90%;height:300px;" v-model="generateInsertSqlModel.insertText"></textarea><p>
+  </div>
 </div>
 <script src="tools.js"></script>
 </body>

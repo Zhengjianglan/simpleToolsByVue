@@ -7,6 +7,7 @@ new Vue({
 	views : {
 		generateNetClass : "GenerateNetClass",
 		generateMssqlIndex : "GenerateMssqlIndex",
+		generateInsertSql:"GenerateInsertSql",
 	},
 	netClassModel : {
 		sourceText : "",
@@ -19,6 +20,11 @@ new Vue({
 		tableName : "CallTask",
 		indexList : "CustomerId,ProductId,Name;CallTypeId;CustomerId;Status;Principal;Deadline;Caller;CallTime;AnswerStatus;FollowUp;UpdatedOn;",
 		createText : "",
+	},
+	generateInsertSqlModel : {
+		tableName : "CallTask",
+		dataText : "",
+		insertText : "",
 	}
   },
 	methods:{
@@ -29,6 +35,33 @@ new Vue({
 			var tbNamePara = this.mssqlIndexModel.tableName;
 			var indexFieldsPara = this.mssqlIndexModel.indexList.split(';');
 			this.mssqlIndexModel.createText = this.getIndexString(tbNamePara,indexFieldsPara);
+		},
+		generateInsertSqlBtnClick : function() {
+			var tbNamePara = this.generateInsertSqlModel.tableName;
+			var colRows = this.generateInsertSqlModel.dataText.split('\n');
+			var headRow = colRows[0];
+			var cols = colRows[0].split('\t');
+			var headTemplate = "";
+			for(var j = 0;j<cols.length;j++){
+				headTemplate += "["+cols[j]+"]";
+				if(j!=cols.length-1)
+					headTemplate+=",";
+			}
+			var insertTemplate = "insert into [" + tbNamePara + "] ([headers]) values ([bodys])";
+			var resultTest = "";
+			for(var i =1;i<colRows.length;i++){
+				var line = colRows[i];
+				var words = line.split('\t');
+				var colBodyTemplate = "";
+				for(var k =0;k<words.length;k++){
+					colBodyTemplate=colBodyTemplate+"'"+words[k]+"'";
+					if(k!=words.length-1)
+						colBodyTemplate = colBodyTemplate+",";
+				}
+				resultTest = resultTest + insertTemplate.replace('[headers]',headTemplate).replace('[bodys]',colBodyTemplate);
+				resultTest = resultTest + "\rGO\r"
+			}
+			this.generateInsertSqlModel.insertText=resultTest;
 		},
 		getIndexString : function (tbName,indexFields){
 			var ixName = "IX_" + tbName;	//indexTemplate
