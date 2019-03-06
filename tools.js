@@ -71,7 +71,7 @@ new Vue({
 						resultTest = resultTest + "delete from [tablename] where id = '[id]'\r".replace('[tablename]',tbNamePara).replace('[id]',words[0]);
 					}
 					else{
-						resultTest = resultTest + "select '[tablename] item [[id]] exists'\relse\r".replace('[tablename]',tbNamePara).replace('[id]',words[0]);
+						resultTest = resultTest + "print '[tablename] item [[id]] exists'\relse\r".replace('[tablename]',tbNamePara).replace('[id]',words[0]);
 					}
 				}
 				resultTest = resultTest + insertTemplate.replace('[headers]',headTemplate).replace('[bodys]',colBodyTemplate);
