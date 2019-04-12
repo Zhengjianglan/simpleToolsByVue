@@ -1,55 +1,91 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Vue Tools</title>
-<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-<script src="vue.js"></script>
-<link href="tools.css" rel="stylesheet" />
+	<meta charset="utf-8">
+	<title>Vue Tools</title>
+	<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+	<script src="vue.js"></script>
+	<script src="serviceTemplate.js"></script>
+	<link href="tools.css" rel="stylesheet" />
 </head>
+
 <body>
-<div id="app">
-	<div id="nav">
-		<ul>
-			<li :id="'view_' + view" v-for="view in views"><a href="javascript:void(0)" title="" @click = "viewTabClick">{{view}}</a></li>
-		</ul>
+	<div id="app">
+		<div id="nav">
+			<ul>
+				<li :id="'view_' + view" v-for="view in views"><a href="javascript:void(0)" title="" @click="viewTabClick">{{view}}</a></li>
+			</ul>
+		</div>
+		<p>
+
+			<div v-if="currentView==views.generateNetClass">
+				<label>FieldNameIndex</label><input type="text" class="formInput" v-model="netClassModel.fieldNameIndex" />
+				<label>FieldTypeIndex</label><input type="text" class="formInput" v-model="netClassModel.fieldTypeIndex" />
+				<p>
+					<input @click="generateNetClassBtnClick" type="button" value="Confirm" />
+					<p>
+						<label> SourceText</label>
+						<p>
+							<textarea style="width:90%;height:300px;" v-model="netClassModel.sourceText"></textarea>
+							<p>
+								<label> TargetText</label>
+								<p>
+									<textarea style="width:90%;height:300px;" v-model="netClassModel.netClassText"></textarea>
+									<p>
+			</div>
+
+			<div v-if="currentView==views.generateMssqlIndex">
+				<label>TableName</label><input type="text" class="formInput" v-model="mssqlIndexModel.tableName" />
+				<p>
+					<label>IndexLists</label>
+					<p><input type="text" style="width:90%;" class="" v-model="mssqlIndexModel.indexList" />
+						<p>
+							<input @click="generateMssqlIndexBtnClick" type="button" value="Confirm" />
+							<p>
+								<label> TargetText</label>
+								<p>
+									<textarea style="width:90%;height:300px;" v-model="mssqlIndexModel.createText"></textarea>
+									<p>
+			</div>
+
+			<div v-if="currentView==views.generateInsertSql">
+				<label>TableName</label><input type="text" class="formInput" v-model="generateInsertSqlModel.tableName" />
+				<label>Check If Exists</label>
+				<select v-model="generateInsertSqlModel.exceptExists">
+					<option value='0'>N</option>
+					<option value='1'>Y</option>
+				</select>
+				<label>Delete If Exists</label>
+				<select v-model="generateInsertSqlModel.deleteExists">
+					<option value='0'>N</option>
+					<option value='1'>Y</option>
+				</select>
+				<P>
+					<input @click="generateInsertSqlBtnClick" type="button" value="Confirm" />
+					<p>
+						<label> DataText</label>
+						<p>
+							<textarea style="width:90%;height:300px;" v-model="generateInsertSqlModel.dataText"></textarea>
+							<p>
+								<label> InsertText</label>
+								<p>
+									<textarea style="width:90%;height:300px;" v-model="generateInsertSqlModel.insertText"></textarea>
+									<p>
+			</div>
+
+			<div v-if="currentView==views.generateService">
+				<label>EntityName</label><input type="text" class="formInput" v-model="generateServiceModel.entityName" />
+				<P>
+					<input @click="generateServiceBtnClick" type="button" value="Confirm" />
+				</p>
+				<label> ServiceText</label>
+				<p>
+					<textarea style="width:90%;height:600px;" v-model="generateServiceModel.serviceText"></textarea>
+				</p>
+			</div>
 	</div>
-	<p>
-	
-  <div v-if="currentView==views.generateNetClass">
-	<label>FieldNameIndex</label><input type="text" class="formInput" v-model="netClassModel.fieldNameIndex"/>
-	<label>FieldTypeIndex</label><input type="text" class="formInput" v-model="netClassModel.fieldTypeIndex"/><p>
-	<input @click="generateNetClassBtnClick" type="button" value="Confirm"/>
-	<p>
-	<label> SourceText</label><p>
-	<textarea style="width:90%;height:300px;" v-model="netClassModel.sourceText"></textarea><p>
-	<label> TargetText</label><p>
-	<textarea style="width:90%;height:300px;" v-model="netClassModel.netClassText"></textarea><p>
-  </div>
-  
-  <div v-if="currentView==views.generateMssqlIndex">
-	<label>TableName</label><input type="text" class="formInput" v-model="mssqlIndexModel.tableName"/><p>
-	<label>IndexLists</label><p><input type="text" style="width:90%;" class="" v-model="mssqlIndexModel.indexList"/><p>
-	<input @click="generateMssqlIndexBtnClick" type="button" value="Confirm"/>
-	<p>
-	<label> TargetText</label><p>
-	<textarea style="width:90%;height:300px;" v-model="mssqlIndexModel.createText"></textarea><p>
-  </div>
-  
-    <div v-if="currentView==views.generateInsertSql">
-	<label>TableName</label><input type="text" class="formInput" v-model="generateInsertSqlModel.tableName"/>
-	<label>Check If Exists</label>
-	<select v-model="generateInsertSqlModel.exceptExists"><option value='0'>N</option><option value='1'>Y</option></select>
-	<label>Delete If Exists</label>
-	<select v-model="generateInsertSqlModel.deleteExists"><option value='0'>N</option><option value='1'>Y</option></select><P>
-	<input @click="generateInsertSqlBtnClick" type="button" value="Confirm"/>
-	<p>
-	<label> DataText</label><p>
-	<textarea style="width:90%;height:300px;" v-model="generateInsertSqlModel.dataText"></textarea><p>
-	<label> InsertText</label><p>
-	<textarea style="width:90%;height:300px;" v-model="generateInsertSqlModel.insertText"></textarea><p>
-  </div>
-</div>
-<script src="tools.js"></script>
+	<script src="tools.js"></script>
 </body>
+
 </html>

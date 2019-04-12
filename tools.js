@@ -8,6 +8,7 @@ new Vue({
 		generateNetClass : "GenerateNetClass",
 		generateMssqlIndex : "GenerateMssqlIndex",
 		generateInsertSql:"GenerateInsertSql",
+		generateService:"GenerateService",
 	},
 	netClassModel : {
 		sourceText : "",
@@ -27,6 +28,10 @@ new Vue({
 		insertText : "",
 		exceptExists : '1',
 		deleteExists : '0'
+	},
+	generateServiceModel:{
+		entityName : "CallTask",
+		serviceText :"",
 	}
   },
 	methods:{
@@ -37,6 +42,9 @@ new Vue({
 			var tbNamePara = this.mssqlIndexModel.tableName;
 			var indexFieldsPara = this.mssqlIndexModel.indexList.split(';');
 			this.mssqlIndexModel.createText = this.getIndexString(tbNamePara,indexFieldsPara);
+		},
+		generateServiceBtnClick:function(){
+			this.generateServiceModel.serviceText = serviceTemplate.replace(new RegExp("{EntityName}",'g'),this.generateServiceModel.entityName);
 		},
 		generateInsertSqlBtnClick : function() {
 			var tbNamePara = this.generateInsertSqlModel.tableName;
