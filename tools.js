@@ -68,7 +68,7 @@ new Vue({
 					if(word=='NULL')
 						;
 					else 
-						word = "'"+word+"'";
+						word = "N'"+word+"'";
 					colBodyTemplate=colBodyTemplate+word;
 					if(k!=words.length-1)
 						colBodyTemplate = colBodyTemplate+",";
